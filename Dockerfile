@@ -9,6 +9,7 @@ FROM python:3.12-slim
 ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1
 WORKDIR /app
 COPY backend/requirements.lock.txt ./
+ARG PIP_INDEX_URL=https://pypi.org/simple
 RUN pip install --no-cache-dir --require-hashes -r requirements.lock.txt && useradd --create-home appuser
 COPY backend/ ./
 COPY --from=frontend /build/dist ./static

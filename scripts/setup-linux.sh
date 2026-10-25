@@ -25,6 +25,11 @@ else:
     values = dict(line.split('=', 1) for line in path.read_text().splitlines()
                   if line and not line.startswith('#') and '=' in line)
 origin = os.environ.get('PUBLIC_ORIGIN')
+index_url = os.environ.get('PARTSBOX_PIP_INDEX_URL')
+if index_url:
+    if not index_url.startswith('https://'):
+        raise SystemExit('PARTSBOX_PIP_INDEX_URL must use HTTPS')
+    values['PARTSBOX_PIP_INDEX_URL'] = index_url
 if origin:
     parsed = urlparse(origin)
     if parsed.scheme not in ('http', 'https') or not parsed.hostname or parsed.path not in ('', '/') or parsed.query or parsed.fragment or parsed.username:

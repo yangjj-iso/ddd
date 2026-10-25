@@ -21,6 +21,8 @@ sudo systemctl reload nginx
 
 `setup-linux.sh` 首次生成独立随机凭据，保存于项目 `.env`（权限 600），重复执行时保留数据库密码及管理员密码。查看管理员账号时，使用 SSH 登录服务器后执行 `sudo grep '^ADMIN_' .env`。不要将该文件上传至 GitHub。
 
+如果默认 Python 依赖源访问不稳定，可在腾讯云部署时添加 `PARTSBOX_PIP_INDEX_URL=https://mirrors.cloud.tencent.com/pypi/simple` 环境变量。该选择会保存在 `.env` 供后续构建复用；所有安装包仍须通过依赖锁文件中的 SHA-256 校验。
+
 首次可选择载入演示数据：
 
 ```bash
