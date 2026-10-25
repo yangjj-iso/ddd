@@ -258,13 +258,6 @@ export function Inventory(props: WorkspaceProps) {
   const tabs = ["", "电阻", "电容", "集成电路", "模块"];
   return (
     <>
-      <Stats
-        summary={summary}
-        onLow={() => {
-          setStockFilter("low");
-          setCategory("");
-        }}
-      />
       <div className="inventory-layout">
         <div className="inventory-main panel">
           <div className="inventory-tabs">
