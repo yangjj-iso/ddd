@@ -4056,6 +4056,114 @@ tbody tr.selected {
     padding-bottom: 14px;
   }
 }
+/* Page identity and actions now share the uppermost application bar. */
+.topbar {
+  height: auto;
+  min-height: 114px;
+  padding: 18px 37px;
+  flex-wrap: wrap;
+  gap: 16px 20px;
+}
+.topbar-page {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1 1 310px;
+  min-width: 0;
+}
+.topbar .topbar-heading {
+  display: block;
+  min-width: 0;
+  margin: 0;
+}
+.topbar .topbar-heading .eyebrow {
+  margin-bottom: 5px;
+  font-size: 9px;
+  letter-spacing: 1.2px;
+  line-height: 1.6;
+}
+.topbar .topbar-heading h1 {
+  font-size: 23px;
+  gap: 11px;
+}
+.topbar .topbar-heading p {
+  margin-top: 5px;
+  max-width: none;
+  font-size: 11px;
+  line-height: 1.8;
+}
+.topbar-tools {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-left: auto;
+}
+.topbar .heading-actions {
+  padding: 0;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.topbar .heading-actions:empty {
+  display: none;
+}
+.topbar .topbar-right {
+  gap: 16px;
+}
+.main-shell main {
+  padding-top: 24px;
+}
+@media (min-width: 1600px) {
+  .topbar {
+    padding-right: 45px;
+    padding-left: 45px;
+  }
+}
+@media (max-width: 1240px) {
+  .topbar {
+    padding-right: 24px;
+    padding-left: 24px;
+  }
+  .topbar .global-search input {
+    width: 115px;
+  }
+}
+@media (max-width: 760px) {
+  .topbar {
+    padding: 15px 18px;
+    gap: 12px;
+  }
+  .topbar-page {
+    flex-basis: 100%;
+  }
+  .topbar .topbar-heading h1 {
+    font-size: 22px;
+  }
+  .topbar .topbar-heading .eyebrow {
+    font-size: 8px;
+  }
+  .topbar .topbar-heading p {
+    font-size: 10px;
+  }
+  .topbar-tools {
+    width: 100%;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  .topbar .topbar-right {
+    margin-left: auto;
+    gap: 12px;
+  }
+  .topbar .heading-actions .btn {
+    font-size: 10px;
+    padding: 8px 10px;
+  }
+  .main-shell main {
+    padding-top: 18px;
+  }
+}
 @media (prefers-reduced-motion: reduce) {
   *,
   *:before,

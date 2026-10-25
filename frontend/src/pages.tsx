@@ -1,4 +1,4 @@
-import { useEffect, useState, type ReactNode } from "react";
+import { useEffect, useState } from "react";
 import { copyText } from "./browser";
 import {
   ArrowDownToLine,
@@ -53,28 +53,6 @@ import {
   StockBadge,
 } from "./ui";
 
-export function PageHeading({
-  eyebrow,
-  title,
-  description,
-  children,
-}: {
-  eyebrow: string;
-  title: string;
-  description: string;
-  children?: ReactNode;
-}) {
-  return (
-    <div className="page-heading">
-      <div>
-        <div className="eyebrow">{eyebrow}</div>
-        <h1>{title}</h1>
-        <p>{description}</p>
-      </div>
-      <div className="heading-actions">{children}</div>
-    </div>
-  );
-}
 export function Overview(props: WorkspaceProps) {
   const { summary, onNavigate, setStockFilter, onAdd } = props;
   const [low, setLow] = useState<Part[]>([]),
@@ -90,16 +68,6 @@ export function Overview(props: WorkspaceProps) {
   );
   return (
     <>
-      <PageHeading
-        eyebrow="A LITTLE ORDER, A LOT MORE POSSIBILITY"
-        title="工作台总览"
-        description="你的元件，你的创造。一眼了解今天的物料状态。"
-      >
-        <button className="btn primary" onClick={onAdd}>
-          <Plus size={17} />
-          新增物料
-        </button>
-      </PageHeading>
       <Stats
         summary={summary}
         onLow={() => {
@@ -226,16 +194,6 @@ export function LocationsPage({
   );
   return (
     <>
-      <PageHeading
-        eyebrow="A PLACE FOR EVERY PART"
-        title="库位管理"
-        description="给每一颗元件一个地址，下一次寻找，从容一点。"
-      >
-        <button className="btn primary" onClick={onAdd}>
-          <Plus size={17} />
-          新增库位
-        </button>
-      </PageHeading>
       <div className="location-summary">
         <div>
           <MapPin size={19} />
@@ -417,11 +375,6 @@ export function MovementsPage({ refresh }: { refresh: number }) {
   }, [page, kind, q, refresh]);
   return (
     <>
-      <PageHeading
-        eyebrow="EVERY MOVEMENT TELLS A STORY"
-        title="出入库记录"
-        description="从采购到创造，每一次元件流动都有迹可循。"
-      />
       <div className="panel">
         <div className="table-toolbar">
           <div className="segmented">
@@ -560,16 +513,6 @@ export function ProjectsPage({
   }, [refresh]);
   return (
     <>
-      <PageHeading
-        eyebrow="FROM PARTS TO POSSIBILITIES"
-        title="项目 BOM"
-        description="把元件串成一个灵感。核对需求，提前准备下一次创造。"
-      >
-        <button className="btn primary" onClick={onAdd}>
-          <Plus size={17} />
-          新建项目
-        </button>
-      </PageHeading>
       {error && <Notice error>{error}</Notice>}
       {projects === null ? (
         <Spinner />
@@ -781,16 +724,6 @@ export function AgentsPage({
           );
   return (
     <>
-      <PageHeading
-        eyebrow="BUILT FOR YOU. READY FOR YOUR AGENTS."
-        title="智能体接入"
-        description="让你的智能助手读懂物料库，为查料、备料和补货提供准确数据。"
-      >
-        <button className="btn primary" onClick={onAdd}>
-          <Plus size={17} />
-          创建 API 密钥
-        </button>
-      </PageHeading>
       <div className="agent-banner">
         <span className="agent-art">
           <Bot size={43} strokeWidth={1.3} />
@@ -1021,11 +954,6 @@ export function SettingsPage({
   }, []);
   return (
     <>
-      <PageHeading
-        eyebrow="A WORKSPACE THAT IS YOURS"
-        title="系统设置"
-        description="数据由你掌控，让工作台保持清晰、可靠、有序。"
-      />
       {error && <Notice error>{error}</Notice>}
       <div className="settings-grid">
         <div className="panel settings-panel">

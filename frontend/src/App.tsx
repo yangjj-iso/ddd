@@ -22,6 +22,7 @@ import {
   Search,
   Settings,
   ShieldCheck,
+  Upload,
   X,
 } from "lucide-react";
 import {
@@ -51,6 +52,7 @@ import {
   StockForm,
 } from "./forms";
 import { Logo, Modal, Notice, Spinner } from "./ui";
+import { pageHeaders } from "./pageHeaders";
 
 type User = { name: string; scope: string; admin: boolean };
 const nav = [
@@ -277,6 +279,7 @@ export default function App() {
     category,
     setCategory,
   };
+  const heading = pageHeaders[page] || pageHeaders.inventory;
   if (!authReady)
     return (
       <div className="boot-screen">
@@ -398,7 +401,7 @@ export default function App() {
       </aside>
       <div className="main-shell">
         <header className="topbar">
-          <div className="breadcrumbs">
+          <div className="topbar-page">
             <button
               className="icon-btn mobile-menu"
               aria-label="打开导航"
@@ -406,52 +409,104 @@ export default function App() {
             >
               <Menu size={20} />
             </button>
-            <Box size={16} />
-            <span>我的工作台</span>
-            <ChevronRight size={13} />
-            <strong>
-              {page === "settings"
-                ? "系统设置"
-                : nav.find((v) => v.id === page)?.label}
-            </strong>
+            <div className="page-heading topbar-heading">
+              <div className="eyebrow">{heading.eyebrow}</div>
+              <h1>
+                {heading.title}
+                {heading.tag && (
+                  <span className="heading-tag">{heading.tag}</span>
+                )}
+              </h1>
+              <p>{heading.description}</p>
+            </div>
           </div>
-          <div className="topbar-right">
-            <label className="global-search">
-              <Search size={16} />
-              <input
-                id="global-search"
-                placeholder="搜索你的元件…"
-                aria-label="全局搜索"
-                value={search}
-                onChange={(e) => {
-                  setSearch(e.target.value);
-                  if (page !== "inventory") navigate("inventory");
+          <div className="topbar-tools">
+            <div className="heading-actions">
+              {page === "inventory" && (
+                <button
+                  className="btn"
+                  onClick={() => setDialog({ type: "import" })}
+                >
+                  <Upload size={16} />
+                  导入物料
+                </button>
+              )}
+              {(page === "inventory" || page === "overview") && (
+                <button
+                  className="btn primary"
+                  onClick={() => setDialog({ type: "part" })}
+                >
+                  <Plus size={17} />
+                  新增物料
+                </button>
+              )}
+              {page === "locations" && (
+                <button
+                  className="btn primary"
+                  onClick={() => setDialog({ type: "location" })}
+                >
+                  <Plus size={17} />
+                  新增库位
+                </button>
+              )}
+              {page === "projects" && (
+                <button
+                  className="btn primary"
+                  onClick={() => setDialog({ type: "project" })}
+                >
+                  <Plus size={17} />
+                  新建项目
+                </button>
+              )}
+              {page === "agents" && (
+                <button
+                  className="btn primary"
+                  onClick={() => setDialog({ type: "key" })}
+                >
+                  <Plus size={17} />
+                  创建 API 密钥
+                </button>
+              )}
+            </div>
+            <div className="topbar-right">
+              <label className="global-search">
+                <Search size={16} />
+                <input
+                  id="global-search"
+                  placeholder="搜索你的元件…"
+                  aria-label="全局搜索"
+                  value={search}
+                  onChange={(e) => {
+                    setSearch(e.target.value);
+                    if (page !== "inventory") navigate("inventory");
+                  }}
+                />
+                <kbd>Ctrl K</kbd>
+              </label>
+              <span className={"connection-status" + (error ? " offline" : "")}>
+                <i />
+                {error ? "连接异常" : summary ? "工作台已连接" : "正在连接…"}
+              </span>
+              <button
+                className={
+                  "notification-button " +
+                  (summary?.low_stock ? "has-alert" : "")
+                }
+                aria-label="查看低库存提醒"
+                onClick={() => {
+                  setStockFilter("low");
+                  setCategory("");
+                  setLocationFilter("");
+                  setSearch("");
+                  navigate("inventory");
                 }}
-              />
-              <kbd>Ctrl K</kbd>
-            </label>
-            <span className={"connection-status" + (error ? " offline" : "")}>
-              <i />
-              {error ? "连接异常" : summary ? "工作台已连接" : "正在连接…"}
-            </span>
-            <button
-              className={
-                "notification-button " + (summary?.low_stock ? "has-alert" : "")
-              }
-              aria-label="查看低库存提醒"
-              onClick={() => {
-                setStockFilter("low");
-                setCategory("");
-                setLocationFilter("");
-                setSearch("");
-                navigate("inventory");
-              }}
-            >
-              <Bell size={19} />
-            </button>
-            <span className="top-avatar">
-              {user.name.slice(0, 1).toUpperCase()}
-            </span>
+              >
+                <Bell size={19} />
+              </button>
+              <span className="top-avatar">
+                {user.name.slice(0, 1).toUpperCase()}
+              </span>
+            </div>
           </div>
         </header>
         <main>

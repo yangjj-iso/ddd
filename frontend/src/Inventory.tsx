@@ -258,25 +258,6 @@ export function Inventory(props: WorkspaceProps) {
   const tabs = ["", "电阻", "电容", "集成电路", "模块"];
   return (
     <>
-      <div className="page-heading">
-        <div>
-          <div className="eyebrow">YOUR COMPONENT WORKSPACE</div>
-          <h1>
-            物料库<span className="heading-tag">我的元件收藏</span>
-          </h1>
-          <p>从一颗电阻，到下一个灵感。让所有元件，都触手可及。</p>
-        </div>
-        <div className="heading-actions">
-          <button className="btn" onClick={onImport}>
-            <Upload size={16} />
-            导入物料
-          </button>
-          <button className="btn primary" onClick={onAdd}>
-            <Plus size={17} />
-            新增物料
-          </button>
-        </div>
-      </div>
       <Stats
         summary={summary}
         onLow={() => {
