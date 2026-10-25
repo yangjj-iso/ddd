@@ -16,6 +16,13 @@ services:
       - --mysqlx=0
       - --skip-name-resolve
   app:
+    env_file: !reset []
+    environment:
+      SECRET_KEY: ${SECRET_KEY:?}
+      ADMIN_USERNAME: ${ADMIN_USERNAME:-admin}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:?}
+      COOKIE_SECURE: ${COOKIE_SECURE:-false}
+      TRUSTED_ORIGINS: ${TRUSTED_ORIGINS:-[]}
     build:
       args:
         PIP_INDEX_URL: ${PARTSBOX_PIP_INDEX_URL:-https://pypi.org/simple}

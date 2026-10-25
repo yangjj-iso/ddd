@@ -17,6 +17,9 @@ server {
     server_name __SERVER_IP__;
     server_tokens off;
     client_max_body_size 3m;
+    gzip on;
+    gzip_min_length 1024;
+    gzip_types text/css application/javascript application/json image/svg+xml;
     ssl_certificate /etc/letsencrypt/live/partsbox-ip/fullchain.pem;
     ssl_certificate_key /etc/letsencrypt/live/partsbox-ip/privkey.pem;
     ssl_protocols TLSv1.2 TLSv1.3;
