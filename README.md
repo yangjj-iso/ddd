@@ -191,5 +191,7 @@ $env:TEST_DATABASE_URL='mysql+pymysql://user:password@127.0.0.1:3307/partsbox_te
 - 专用 MySQL 测试库执行 **11 项集成测试，全部通过**。
 - 官方 MCP SDK 客户端实际调用全部 **6 个只读工具**成功；临时验证密钥已撤销并清理。
 - 浏览器验证了登录、参数搜索、列表 / 卡片切换、物料详情、出入库表单、实际新增、库位、总览与智能体接入页。临时验收物料已清理。
-- Windows PowerShell 启动脚本实际验证通过；Docker Compose 通过配置校验。当前电脑 Docker 引擎未运行成功，**尚未执行完整容器构建与容器运行验证**。
+- Windows PowerShell 启动脚本实际验证通过；Ubuntu 24.04 云服务器已完成完整 Docker 构建、MySQL / 应用健康检查及容器重启验证。
+- 公网 HTTP 的登录、会话、物料搜索、库位与 OpenAPI 均已实际验证；服务器独立测试库 11 项测试通过，全部 6 个 MCP 工具通过公网 API 调用成功。重启应用后 24 种演示物料与流水保留。
+- 云服务器当前按使用者要求运行 HTTP 80，应用只绑定回环 8000，MySQL 不发布宿主机端口。公网浏览器自动化连接超时，未完成该轮公网浏览器点击验收；上述公网验证通过实际 HTTP 请求与 MCP 客户端完成。
 - [工作台截图](docs/screenshots/workspace.jpg)。

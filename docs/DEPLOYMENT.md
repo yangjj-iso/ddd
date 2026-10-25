@@ -46,6 +46,8 @@ sudo /opt/partsbox-certbot/bin/certbot renew --dry-run
 
 ## 端口
 
+仅使用普通 HTTP 时，保持 `deploy/nginx.conf`，并以 `PUBLIC_ORIGIN=http://你的公网IP` 运行 `setup-linux.sh`；无需开放 443，也无需开启证书续期。若已尝试 HTTPS，可重新安装 HTTP 配置、检查并重载 Nginx，然后执行 `sudo systemctl disable --now partsbox-certbot-renew.timer`。
+
 | TCP 端口 | 用途 | 云防火墙 / 安全组 |
 | --- | --- | --- |
 | 22 | SSH 部署和维护 | 保留，建议仅允许自己的公网 IP |
