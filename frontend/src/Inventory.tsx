@@ -645,10 +645,6 @@ export function Inventory(props: WorkspaceProps) {
               <i />
             </div>
           </div>
-          <div className="small-caption">
-            <span className="live-dot" />
-            数据实时存储于 MySQL<span>自托管 · 由你掌控</span>
-          </div>
         </aside>
       </div>
       <div className="page-footnote">

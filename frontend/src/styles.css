@@ -1396,29 +1396,6 @@ tbody tr.selected {
   height: 35px;
   width: 27px;
 }
-.small-caption {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 5px;
-  align-items: center;
-  font-size: 10px;
-  color: #6b725f;
-  margin-top: -3px;
-}
-.small-caption .live-dot {
-  width: 4px;
-  height: 4px;
-  background: #9db48a;
-}
-.small-caption > span:last-child {
-  width: 100%;
-  display: block;
-  text-align: center;
-  color: #6c7264;
-  margin-top: 1px;
-  font-size: 10px;
-}
 .page-footnote {
   display: flex;
   justify-content: space-between;
