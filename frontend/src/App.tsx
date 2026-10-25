@@ -421,53 +421,6 @@ export default function App() {
             </div>
           </div>
           <div className="topbar-tools">
-            <div className="heading-actions">
-              {page === "inventory" && (
-                <button
-                  className="btn"
-                  onClick={() => setDialog({ type: "import" })}
-                >
-                  <Upload size={16} />
-                  导入物料
-                </button>
-              )}
-              {(page === "inventory" || page === "overview") && (
-                <button
-                  className="btn primary"
-                  onClick={() => setDialog({ type: "part" })}
-                >
-                  <Plus size={17} />
-                  新增物料
-                </button>
-              )}
-              {page === "locations" && (
-                <button
-                  className="btn primary"
-                  onClick={() => setDialog({ type: "location" })}
-                >
-                  <Plus size={17} />
-                  新增库位
-                </button>
-              )}
-              {page === "projects" && (
-                <button
-                  className="btn primary"
-                  onClick={() => setDialog({ type: "project" })}
-                >
-                  <Plus size={17} />
-                  新建项目
-                </button>
-              )}
-              {page === "agents" && (
-                <button
-                  className="btn primary"
-                  onClick={() => setDialog({ type: "key" })}
-                >
-                  <Plus size={17} />
-                  创建 API 密钥
-                </button>
-              )}
-            </div>
             <div className="topbar-right">
               <label className="global-search">
                 <Search size={16} />
@@ -517,6 +470,61 @@ export default function App() {
                 重新连接
               </button>
             </Notice>
+          )}
+          {[
+            "inventory",
+            "overview",
+            "locations",
+            "projects",
+            "agents",
+          ].includes(page) && (
+            <div className="page-actions" role="toolbar" aria-label="页面操作">
+              {page === "inventory" && (
+                <button
+                  className="btn"
+                  onClick={() => setDialog({ type: "import" })}
+                >
+                  <Upload size={16} />
+                  导入物料
+                </button>
+              )}
+              {(page === "inventory" || page === "overview") && (
+                <button
+                  className="btn primary"
+                  onClick={() => setDialog({ type: "part" })}
+                >
+                  <Plus size={17} />
+                  新增物料
+                </button>
+              )}
+              {page === "locations" && (
+                <button
+                  className="btn primary"
+                  onClick={() => setDialog({ type: "location" })}
+                >
+                  <Plus size={17} />
+                  新增库位
+                </button>
+              )}
+              {page === "projects" && (
+                <button
+                  className="btn primary"
+                  onClick={() => setDialog({ type: "project" })}
+                >
+                  <Plus size={17} />
+                  新建项目
+                </button>
+              )}
+              {page === "agents" && (
+                <button
+                  className="btn primary"
+                  onClick={() => setDialog({ type: "key" })}
+                >
+                  <Plus size={17} />
+                  创建 API 密钥
+                </button>
+              )}
+            </div>
           )}
           {page === "inventory" ? (
             <Inventory {...props} />
