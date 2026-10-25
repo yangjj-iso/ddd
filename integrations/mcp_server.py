@@ -17,8 +17,14 @@ if (
     raise RuntimeError(
         "PARTSBOX_URL must be an HTTP(S) origin without embedded credentials"
     )
-if parsed.scheme == "http" and parsed.hostname not in ("localhost", "127.0.0.1", "::1"):
-    raise RuntimeError("Use HTTPS for remote connections to protect your API key")
+if (
+    parsed.scheme == "http"
+    and parsed.hostname not in ("localhost", "127.0.0.1", "::1")
+    and os.environ.get("PARTSBOX_ALLOW_INSECURE_HTTP", "").lower() not in ("true", "1")
+):
+    raise RuntimeError(
+        "Use HTTPS or an SSH tunnel; for an explicitly chosen HTTP deployment, set PARTSBOX_ALLOW_INSECURE_HTTP=true"
+    )
 if not API_KEY:
     raise RuntimeError(
         "Create a read-only API key in PartsBox and set PARTSBOX_API_KEY"

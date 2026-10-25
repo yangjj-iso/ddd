@@ -150,7 +150,7 @@ curl 'http://localhost:8000/api/v1/parts?q=STM32&page=1&page_size=20' \
 }
 ```
 
-工具：`search_parts`、`get_part`、`inventory_summary`、`list_locations`、`list_project_boms`、`stock_history`。远程 API 地址必须使用 HTTPS；本机允许 HTTP。MCP SDK 升级前请重新验证客户端兼容性。
+工具：`search_parts`、`get_part`、`inventory_summary`、`list_locations`、`list_project_boms`、`stock_history`。远程 API 默认要求 HTTPS，本机允许 HTTP。明确选择公网 HTTP 部署时，可在 MCP 的 `env` 中添加 `"PARTSBOX_ALLOW_INSECURE_HTTP": "true"`；此方式的密钥与请求将使用 HTTP 传输，也可以通过 SSH 隧道访问本机地址。MCP SDK 升级前请重新验证客户端兼容性。
 
 ## 导入与备份
 

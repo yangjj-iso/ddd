@@ -10,6 +10,7 @@ import {
   Upload,
 } from "lucide-react";
 import Papa from "papaparse";
+import { createRequestId, copyText } from "./browser";
 import { api, post, type Part, type Location, type Project } from "./api";
 import { Modal, Notice, PartArt, StockBadge, downloadBlob } from "./ui";
 
@@ -298,7 +299,7 @@ export function StockForm({
     [error, setError] = useState(""),
     [busy, setBusy] = useState(false),
     [qty, setQty] = useState(1);
-  const [requestKey] = useState(() => crypto.randomUUID());
+  const [requestKey] = useState(createRequestId);
   async function submit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setBusy(true);
@@ -696,14 +697,20 @@ export function KeyForm({ onClose, onSaved, notify }: FormProps) {
         <>
           <div className="modal-body">
             <Notice>请复制并保存到密码管理器或智能体的环境变量。</Notice>
+            {error && <Notice error>{error}</Notice>}
             <div className="token-box">
               <code>{token}</code>
               <button
                 className="icon-btn"
                 aria-label="复制密钥"
                 onClick={async () => {
-                  await navigator.clipboard.writeText(token);
-                  setCopied(true);
+                  try {
+                    await copyText(token);
+                    setCopied(true);
+                    setError("");
+                  } catch (e) {
+                    setError((e as Error).message);
+                  }
                 }}
               >
                 {copied ? <Check size={18} /> : <Copy size={18} />}

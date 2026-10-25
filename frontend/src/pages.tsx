@@ -1,4 +1,5 @@
 import { useEffect, useState, type ReactNode } from "react";
+import { copyText } from "./browser";
 import {
   ArrowDownToLine,
   ArrowRight,
@@ -756,7 +757,28 @@ export function AgentsPage({
   -H "X-API-Key: $PARTSBOX_API_KEY"`
       : tab === "python"
         ? `import os\nimport httpx\n\nresponse = httpx.get(\n    "${origin}/api/v1/parts",\n    params={"q": "STM32", "page_size": 20},\n    headers={"X-API-Key": os.environ["PARTSBOX_API_KEY"]},\n)\nresponse.raise_for_status()\nprint(response.json())`
-        : `{\n  "mcpServers": {\n    "partsbox": {\n      "command": "python",\n      "args": ["/absolute/path/integrations/mcp_server.py"],\n      "env": {\n        "PARTSBOX_URL": "${origin}",\n        "PARTSBOX_API_KEY": "<替换为只读密钥>"\n      }\n    }\n  }\n}`;
+        : JSON.stringify(
+            {
+              mcpServers: {
+                partsbox: {
+                  command: "python",
+                  args: ["/absolute/path/integrations/mcp_server.py"],
+                  env: {
+                    PARTSBOX_URL: origin,
+                    PARTSBOX_API_KEY: "<替换为只读密钥>",
+                    ...(window.location.protocol === "http:" &&
+                    !["localhost", "127.0.0.1", "[::1]"].includes(
+                      window.location.hostname,
+                    )
+                      ? { PARTSBOX_ALLOW_INSECURE_HTTP: "true" }
+                      : {}),
+                  },
+                },
+              },
+            },
+            null,
+            2,
+          );
   return (
     <>
       <PageHeading
@@ -867,7 +889,7 @@ export function AgentsPage({
               aria-label="复制接入示例"
               onClick={async () => {
                 try {
-                  await navigator.clipboard.writeText(example);
+                  await copyText(example);
                   setCopied(true);
                   setTimeout(() => setCopied(false), 2000);
                 } catch {
