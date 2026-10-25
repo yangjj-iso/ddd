@@ -40,22 +40,30 @@ export function PartForm({
   const [error, setError] = useState(""),
     [busy, setBusy] = useState(false);
   const [specs, setSpecs] = useState(
-    Object.entries(part?.specs || {}).map(([key, value]) => ({ key, value })),
+    Object.entries(part?.specs || {})
+      .filter(([key]) => key !== "商品类型")
+      .map(([key, value]) => ({ key, value })),
   );
   async function submit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setError("");
     setBusy(true);
     const raw = Object.fromEntries(new FormData(e.currentTarget));
+    const { product_type, ...values } = raw;
     const body = {
-      ...raw,
+      ...values,
       quantity: Number(raw.quantity || 0),
       min_quantity: Number(raw.min_quantity),
       unit_price: raw.unit_price || "0",
       location_id: raw.location_id ? Number(raw.location_id) : null,
-      specs: Object.fromEntries(
-        specs.filter((s) => s.key.trim()).map((s) => [s.key.trim(), s.value]),
-      ),
+      specs: {
+        ...Object.fromEntries(
+          specs.filter((s) => s.key.trim()).map((s) => [s.key.trim(), s.value]),
+        ),
+        ...(String(product_type || "").trim()
+          ? { 商品类型: String(product_type).trim() }
+          : {}),
+      },
     };
     try {
       await api("/api/v1/parts" + (part ? "/" + part.id : ""), {
@@ -115,6 +123,17 @@ export function PartForm({
                   <option key={c}>{c}</option>
                 ))}
               </select>
+            </label>
+            <label>
+              商品类型
+              <input
+                name="product_type"
+                maxLength={100}
+                defaultValue={
+                  part?.specs["商品类型"] || part?.specs["器件类型"] || ""
+                }
+                placeholder="例如：无源晶振、贴片电容(MLCC)、轻触开关"
+              />
             </label>
             <label>
               封装
@@ -578,7 +597,7 @@ export function ImportForm({ onClose, onSaved, notify }: FormProps) {
             className="btn"
             onClick={() =>
               downloadBlob(
-                "\ufeffsku,name,category,manufacturer,package,description,quantity,min_quantity,unit_price,location_code,datasheet_url,notes\nRES-NEW,10kΩ 电阻,电阻,YAGEO,0603,10kΩ ±1%,100,20,0.01,,,\n",
+                "\ufeffsku,name,category,product_type,manufacturer,package,description,quantity,min_quantity,unit_price,location_code,datasheet_url,notes\nRES-NEW,10kΩ 电阻,电阻,贴片电阻,YAGEO,0603,10kΩ ±1%,100,20,0.01,,,\n",
                 "partsbox-import-template.csv",
               )
             }
@@ -622,6 +641,7 @@ export function ImportForm({ onClose, onSaved, notify }: FormProps) {
                     <th>物料编号</th>
                     <th>名称</th>
                     <th>分类</th>
+                    <th>商品类型</th>
                     <th>数量</th>
                   </tr>
                 </thead>
@@ -631,6 +651,7 @@ export function ImportForm({ onClose, onSaved, notify }: FormProps) {
                       <td className="mono">{r.sku}</td>
                       <td>{r.name}</td>
                       <td>{r.category}</td>
+                      <td>{r.product_type || "—"}</td>
                       <td>{r.quantity || 0}</td>
                     </tr>
                   ))}

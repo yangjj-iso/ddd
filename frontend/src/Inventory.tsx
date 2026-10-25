@@ -42,6 +42,7 @@ import {
   downloadBlob,
 } from "./ui";
 import { categories } from "./forms";
+import { getProductType } from "./productTypes";
 
 export type WorkspaceProps = {
   summary: Summary | null;
@@ -229,6 +230,7 @@ export function Inventory(props: WorkspaceProps) {
           sku: p.sku,
           name: p.name,
           category: p.category,
+          product_type: p.specs["商品类型"] || p.specs["器件类型"] || "",
           manufacturer: p.manufacturer,
           package: p.package,
           description: p.description,
@@ -321,7 +323,7 @@ export function Inventory(props: WorkspaceProps) {
                 aria-label="搜索物料"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                placeholder="搜索名称、型号、参数…"
+                placeholder="搜索型号、商品类型、参数…"
               />
               {search && (
                 <button
@@ -471,6 +473,7 @@ export function Inventory(props: WorkspaceProps) {
                       />
                     </th>
                     <th>物料信息</th>
+                    <th>商品类型</th>
                     <th>封装</th>
                     <th>库存数量</th>
                     <th>存放位置</th>
@@ -514,6 +517,14 @@ export function Inventory(props: WorkspaceProps) {
                             </small>
                           </div>
                         </button>
+                      </td>
+                      <td>
+                        <span
+                          className="product-type-tag"
+                          title={getProductType(p)}
+                        >
+                          {getProductType(p)}
+                        </span>
                       </td>
                       <td>
                         <span className="package-tag">{p.package || "—"}</span>
@@ -590,6 +601,9 @@ export function Inventory(props: WorkspaceProps) {
                   </div>
                   <button onClick={() => onDetail(p)}>
                     <h3>{p.name}</h3>
+                    <span className="product-type-tag">
+                      {getProductType(p)}
+                    </span>
                     <p>{p.description}</p>
                     <small>
                       {p.sku} · {p.package}
@@ -810,6 +824,14 @@ export function Detail({
           <>
             <dl className="detail-fields">
               <div>
+                <dt>商品类型</dt>
+                <dd>
+                  <span className="product-type-tag">
+                    {getProductType(part)}
+                  </span>
+                </dd>
+              </div>
+              <div>
                 <dt>制造商</dt>
                 <dd>{part.manufacturer || "—"}</dd>
               </div>
@@ -829,12 +851,14 @@ export function Detail({
                 <dt>低库存阈值</dt>
                 <dd>{part.min_quantity} 件</dd>
               </div>
-              {Object.entries(part.specs).map(([k, v]) => (
-                <div key={k}>
-                  <dt>{k}</dt>
-                  <dd>{v}</dd>
-                </div>
-              ))}
+              {Object.entries(part.specs)
+                .filter(([k]) => k !== "商品类型" && k !== "器件类型")
+                .map(([k, v]) => (
+                  <div key={k}>
+                    <dt>{k}</dt>
+                    <dd>{v}</dd>
+                  </div>
+                ))}
             </dl>
             {part.datasheet_url && (
               <a

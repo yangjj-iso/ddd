@@ -233,6 +233,7 @@ CSV_COLUMNS = [
     "sku",
     "name",
     "category",
+    "product_type",
     "manufacturer",
     "package",
     "description",
@@ -266,6 +267,9 @@ def export_parts(
     )
     for part in rows:
         data = part_data(part)
+        data["product_type"] = part.specs.get("商品类型", "") or part.specs.get(
+            "器件类型", ""
+        )
         data["location_code"] = part.location.code if part.location else ""
         row = {key: data.get(key, "") for key in CSV_COLUMNS}
         for key, value in row.items():
@@ -306,6 +310,9 @@ async def import_parts(db: DB, user: Writer, file: UploadFile = File(...)):
                 if k in CSV_COLUMNS
             }
             code = values.pop("location_code", "")
+            product_type = values.pop("product_type", "")
+            if product_type:
+                values["specs"] = {"商品类型": product_type}
             if code and code not in locations:
                 raise ValueError(f"库位 {code} 不存在，请先创建")
             values["location_id"] = locations.get(code)

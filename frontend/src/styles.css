@@ -982,6 +982,24 @@ tbody tr.selected {
   background: #fbfcf8;
   white-space: nowrap;
 }
+.product-type-tag {
+  display: inline-block;
+  max-width: 170px;
+  padding: 4px 7px;
+  border: 1px solid #dfe8dc;
+  border-radius: 5px;
+  background: #f3f7ef;
+  color: #44633e;
+  font-size: 11px;
+  line-height: 1.6;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  text-align: left;
+}
+.part-card > button > .product-type-tag {
+  margin-top: 9px;
+  font-size: 10px;
+}
 .quantity-cell {
   display: flex;
   align-items: baseline;
@@ -1074,7 +1092,7 @@ tbody tr.selected {
   padding-bottom: 13px;
 }
 .parts-table {
-  min-width: 655px;
+  min-width: 780px;
 }
 .pagination {
   display: flex;

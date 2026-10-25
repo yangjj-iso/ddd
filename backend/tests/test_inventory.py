@@ -150,6 +150,26 @@ def test_csv_import_all_or_nothing(client, part):
     assert client.get("/api/v1/movements").json()["total"] == 3
 
 
+def test_product_type_csv_roundtrip(client):
+    import csv
+    import io
+
+    content = "sku,name,category,product_type,quantity,unit_price\nCRYSTAL-001,16MHz 晶振,其他,无源晶振,5,0.5138\n"
+    response = client.post(
+        "/api/v1/parts/import",
+        files={"file": ("parts.csv", content.encode("utf-8-sig"), "text/csv")},
+    )
+    assert response.status_code == 200, response.text
+    result = client.get("/api/v1/parts", params={"q": "无源晶振"}).json()
+    assert result["total"] == 1
+    assert result["items"][0]["specs"]["商品类型"] == "无源晶振"
+    assert result["items"][0]["quantity"] == 5
+    exported = client.get("/api/v1/parts/export").text.lstrip("\ufeff")
+    rows = list(csv.DictReader(io.StringIO(exported)))
+    assert rows[0]["product_type"] == "无源晶振"
+    assert rows[0]["sku"] == "CRYSTAL-001"
+
+
 def test_location_and_history_cannot_be_accidentally_deleted(client, part):
     location = client.post(
         "/api/v1/locations", json={"code": "A-01", "name": "收纳盒", "capacity": 20}
