@@ -45,5 +45,6 @@ WantedBy=timers.target
 EOF
 systemctl daemon-reload
 systemctl enable --now partsbox-certbot-renew.timer
-curl --fail --silent --show-error "https://$SERVER_IP/api/health"
+curl --fail --silent --show-error --connect-timeout 5 --max-time 15 \
+  --resolve "$SERVER_IP:443:127.0.0.1" "https://$SERVER_IP/api/health"
 printf '\nHTTPS ready with automatic certificate renewal.\n'
