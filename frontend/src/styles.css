@@ -4059,8 +4059,8 @@ tbody tr.selected {
 /* Page identity stays in the uppermost bar; page actions stay with the content. */
 .topbar {
   height: auto;
-  min-height: 114px;
-  padding: 18px 37px;
+  min-height: 64px;
+  padding: 12px 37px;
   flex-wrap: wrap;
   gap: 16px 20px;
 }
@@ -4068,7 +4068,7 @@ tbody tr.selected {
   display: flex;
   align-items: center;
   gap: 12px;
-  flex: 1 1 310px;
+  flex: 1 1 180px;
   min-width: 0;
 }
 .topbar .topbar-heading {
@@ -4076,21 +4076,11 @@ tbody tr.selected {
   min-width: 0;
   margin: 0;
 }
-.topbar .topbar-heading .eyebrow {
-  margin-bottom: 5px;
-  font-size: 9px;
-  letter-spacing: 1.2px;
-  line-height: 1.6;
-}
 .topbar .topbar-heading h1 {
-  font-size: 23px;
-  gap: 11px;
-}
-.topbar .topbar-heading p {
-  margin-top: 5px;
-  max-width: none;
-  font-size: 11px;
-  line-height: 1.8;
+  margin: 0;
+  font-size: 20px;
+  line-height: 1.4;
+  white-space: nowrap;
 }
 .topbar-tools {
   display: flex;
@@ -4131,29 +4121,30 @@ tbody tr.selected {
 }
 @media (max-width: 760px) {
   .topbar {
-    padding: 15px 18px;
-    gap: 12px;
+    min-height: 60px;
+    padding: 12px 18px;
+    flex-wrap: nowrap;
+    gap: 10px;
   }
   .topbar-page {
-    flex-basis: 100%;
+    flex: 1 1 auto;
+    gap: 8px;
   }
   .topbar .topbar-heading h1 {
-    font-size: 22px;
-  }
-  .topbar .topbar-heading .eyebrow {
-    font-size: 8px;
-  }
-  .topbar .topbar-heading p {
-    font-size: 10px;
+    font-size: 18px;
   }
   .topbar-tools {
-    width: 100%;
-    justify-content: space-between;
-    gap: 10px;
+    width: auto;
+    flex-shrink: 0;
+    flex-wrap: nowrap;
+    gap: 0;
   }
   .topbar .topbar-right {
     margin-left: auto;
-    gap: 12px;
+    gap: 10px;
+  }
+  .topbar .global-search input {
+    width: 90px;
   }
   .page-actions {
     gap: 8px;
@@ -4165,6 +4156,11 @@ tbody tr.selected {
   }
   .main-shell main {
     padding-top: 18px;
+  }
+}
+@media (max-width: 380px) {
+  .topbar .global-search input {
+    width: 70px;
   }
 }
 @media (prefers-reduced-motion: reduce) {

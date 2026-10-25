@@ -410,14 +410,7 @@ export default function App() {
               <Menu size={20} />
             </button>
             <div className="page-heading topbar-heading">
-              <div className="eyebrow">{heading.eyebrow}</div>
-              <h1>
-                {heading.title}
-                {heading.tag && (
-                  <span className="heading-tag">{heading.tag}</span>
-                )}
-              </h1>
-              <p>{heading.description}</p>
+              <h1>{heading.title}</h1>
             </div>
           </div>
           <div className="topbar-tools">
