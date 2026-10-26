@@ -21,7 +21,6 @@ import {
   Search,
   Settings,
   ShieldCheck,
-  Upload,
   X,
 } from "lucide-react";
 import {
@@ -453,24 +452,9 @@ export default function App() {
               </button>
             </Notice>
           )}
-          {[
-            "inventory",
-            "overview",
-            "locations",
-            "projects",
-            "agents",
-          ].includes(page) && (
+          {["overview", "locations", "projects", "agents"].includes(page) && (
             <div className="page-actions" role="toolbar" aria-label="页面操作">
-              {page === "inventory" && (
-                <button
-                  className="btn"
-                  onClick={() => setDialog({ type: "import" })}
-                >
-                  <Upload size={16} />
-                  导入物料
-                </button>
-              )}
-              {(page === "inventory" || page === "overview") && (
+              {page === "overview" && (
                 <button
                   className="btn primary"
                   onClick={() => setDialog({ type: "part" })}

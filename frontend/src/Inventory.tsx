@@ -279,35 +279,52 @@ export function Inventory(props: WorkspaceProps) {
         }
       >
         <div className="inventory-main panel">
-          <div className="inventory-tabs">
-            {tabs.map((c) => (
-              <button
-                key={c}
-                className={category === c ? "active" : ""}
-                onClick={() => setCategory(c)}
+          <div className="inventory-panel-header">
+            <div className="inventory-tabs">
+              {tabs.map((c) => (
+                <button
+                  key={c}
+                  className={category === c ? "active" : ""}
+                  onClick={() => setCategory(c)}
+                >
+                  {c || "全部物料"}
+                  <span>
+                    {c
+                      ? summary?.categories.find((v) => v.name === c)?.count ||
+                        0
+                      : summary?.total_parts || 0}
+                  </span>
+                </button>
+              ))}
+              <select
+                aria-label="更多物料分类"
+                value={tabs.includes(category) ? "" : category}
+                onChange={(e) => setCategory(e.target.value)}
               >
-                {c || "全部物料"}
-                <span>
-                  {c
-                    ? summary?.categories.find((v) => v.name === c)?.count || 0
-                    : summary?.total_parts || 0}
-                </span>
-              </button>
-            ))}
-            <select
-              aria-label="更多物料分类"
-              value={tabs.includes(category) ? "" : category}
-              onChange={(e) => setCategory(e.target.value)}
+                <option value="">更多分类</option>
+                {categories
+                  .filter((c) => !tabs.includes(c))
+                  .map((c) => (
+                    <option key={c} value={c}>
+                      {c}
+                    </option>
+                  ))}
+              </select>
+            </div>
+            <div
+              className="inventory-panel-actions"
+              role="toolbar"
+              aria-label="物料操作"
             >
-              <option value="">更多分类</option>
-              {categories
-                .filter((c) => !tabs.includes(c))
-                .map((c) => (
-                  <option key={c} value={c}>
-                    {c}
-                  </option>
-                ))}
-            </select>
+              <button className="btn" onClick={onImport}>
+                <Upload size={16} />
+                导入物料
+              </button>
+              <button className="btn primary" onClick={onAdd}>
+                <Plus size={17} />
+                新增物料
+              </button>
+            </div>
           </div>
           <div className="table-toolbar">
             <label className="search-field">

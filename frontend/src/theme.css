@@ -203,11 +203,39 @@ textarea::placeholder {
 }
 
 /* Readable inventory rows, with restrained category colors. */
+.inventory-panel-header {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  border-bottom: 1px solid var(--border);
+  background: #fdfefd;
+}
+.inventory-panel-header .inventory-tabs {
+  flex: 1 1 450px;
+  min-width: 0;
+  height: 62px;
+  border-bottom: 0;
+}
+.inventory-panel-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+  padding: 12px 17px;
+}
+.inventory-panel-actions .btn {
+  font-size: 12px;
+  min-height: 35px;
+  padding: 8px 12px;
+}
 .inventory-workspace .inventory-tabs {
   height: 51px;
   gap: 22px;
   background: #fdfefd;
   overflow-y: hidden;
+}
+.inventory-workspace .inventory-panel-header .inventory-tabs {
+  height: 62px;
 }
 .inventory-tabs > button {
   font-size: 13px;
@@ -430,6 +458,20 @@ textarea::placeholder {
 }
 
 @media (max-width: 760px) {
+  .inventory-panel-header .inventory-tabs {
+    flex-basis: 100%;
+  }
+  .inventory-workspace .inventory-panel-header .inventory-tabs {
+    height: 48px;
+  }
+  .inventory-panel-actions {
+    padding: 0 12px 12px;
+  }
+  .inventory-panel-actions .btn {
+    min-height: 33px;
+    font-size: 11px;
+    padding: 7px 10px;
+  }
   .topbar .topbar-heading {
     gap: 7px;
   }
