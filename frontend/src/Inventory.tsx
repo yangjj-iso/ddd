@@ -9,7 +9,7 @@ import {
   Grid2X2,
   List,
   MapPin,
-  MoreHorizontal,
+  PanelRight,
   Plus,
   Search,
   SlidersHorizontal,
@@ -163,6 +163,7 @@ export function Inventory(props: WorkspaceProps) {
     onImport,
     onDetail,
     onStock,
+    onEdit,
     search,
     setSearch,
     stockFilter,
@@ -181,7 +182,20 @@ export function Inventory(props: WorkspaceProps) {
     [view, setView] = useState<"list" | "grid">("list"),
     [selected, setSelected] = useState<number[]>([]),
     [filters, setFilters] = useState(false),
+    [showAside, setShowAside] = useState(false),
     [sort, setSort] = useState("newest");
+  const hasFilters = Boolean(
+    search || category || stockFilter || locationFilter,
+  );
+  function clearFilters() {
+    setSearch("");
+    setCategory("");
+    setStockFilter("");
+    setLocationFilter("");
+    setSort("newest");
+    setPage(1);
+    setSelected([]);
+  }
   const size = 10;
   useEffect(() => {
     setPage(1);
@@ -258,7 +272,12 @@ export function Inventory(props: WorkspaceProps) {
   const tabs = ["", "电阻", "电容", "集成电路", "模块"];
   return (
     <>
-      <div className="inventory-layout">
+      <div
+        className={
+          "inventory-layout inventory-workspace" +
+          (showAside ? " with-aside" : "")
+        }
+      >
         <div className="inventory-main panel">
           <div className="inventory-tabs">
             {tabs.map((c) => (
@@ -313,17 +332,32 @@ export function Inventory(props: WorkspaceProps) {
               <button
                 className={
                   "btn compact " +
-                  (filters || stockFilter || locationFilter
+                  (filters || stockFilter || locationFilter || sort !== "newest"
                     ? "filter-active"
                     : "")
                 }
                 onClick={() => setFilters((v) => !v)}
+                aria-expanded={filters}
+                aria-controls="inventory-filters"
               >
                 <SlidersHorizontal size={15} />
                 筛选
                 {(stockFilter || locationFilter) && (
                   <i className="filter-dot" />
                 )}
+              </button>
+              <button
+                className={
+                  "btn compact overview-toggle" +
+                  (showAside ? " filter-active" : "")
+                }
+                onClick={() => setShowAside((v) => !v)}
+                aria-expanded={showAside}
+                aria-controls="inventory-insights"
+                title="查看最近动态与物料分布"
+              >
+                <PanelRight size={15} />
+                概览
               </button>
               <button className="btn compact" onClick={exportRows}>
                 <Download size={15} />
@@ -333,6 +367,7 @@ export function Inventory(props: WorkspaceProps) {
                 <button
                   className={view === "list" ? "active" : ""}
                   aria-label="列表视图"
+                  aria-pressed={view === "list"}
                   onClick={() => setView("list")}
                 >
                   <List size={17} />
@@ -340,6 +375,7 @@ export function Inventory(props: WorkspaceProps) {
                 <button
                   className={view === "grid" ? "active" : ""}
                   aria-label="卡片视图"
+                  aria-pressed={view === "grid"}
                   onClick={() => setView("grid")}
                 >
                   <Grid2X2 size={16} />
@@ -347,8 +383,8 @@ export function Inventory(props: WorkspaceProps) {
               </div>
             </div>
           </div>
-          {(filters || stockFilter || locationFilter) && (
-            <div className="filter-row">
+          {filters && (
+            <div className="filter-row" id="inventory-filters">
               <select
                 aria-label="库存状态"
                 value={stockFilter}
@@ -374,24 +410,63 @@ export function Inventory(props: WorkspaceProps) {
               <select
                 aria-label="排序方式"
                 value={sort}
-                onChange={(e) => setSort(e.target.value)}
+                onChange={(e) => {
+                  setSort(e.target.value);
+                  setPage(1);
+                  setSelected([]);
+                }}
               >
                 <option value="newest">最近添加</option>
                 <option value="name">名称排序</option>
                 <option value="quantity">库存从少到多</option>
               </select>
-              <button
-                className="text-btn"
-                onClick={() => {
-                  setStockFilter("");
-                  setLocationFilter("");
-                  setCategory("");
-                  setSearch("");
-                  setSort("newest");
-                }}
-              >
+              <button className="text-btn" onClick={clearFilters}>
                 重置
               </button>
+            </div>
+          )}
+          {hasFilters && (
+            <div className="active-filters" aria-label="当前筛选">
+              {[
+                search && {
+                  label: `搜索：${search}`,
+                  clear: () => setSearch(""),
+                },
+                category && { label: category, clear: () => setCategory("") },
+                stockFilter && {
+                  label:
+                    stockFilter === "out"
+                      ? "仅缺货"
+                      : stockFilter === "low"
+                        ? "低库存 / 缺货"
+                        : "库存充足",
+                  clear: () => setStockFilter(""),
+                },
+                locationFilter && {
+                  label: `库位：${locations.find((l) => String(l.id) === locationFilter)?.code || locationFilter}`,
+                  clear: () => setLocationFilter(""),
+                },
+              ]
+                .filter((f): f is { label: string; clear: () => void } =>
+                  Boolean(f),
+                )
+                .map((f) => (
+                  <button
+                    key={f.label}
+                    className="filter-chip"
+                    onClick={f.clear}
+                    aria-label={`移除筛选 ${f.label}`}
+                  >
+                    <span>{f.label}</span>
+                    <X size={12} />
+                  </button>
+                ))}
+              <button className="text-btn" onClick={clearFilters}>
+                清除全部
+              </button>
+              <span className="filter-result" role="status">
+                {loading ? "正在搜索…" : `${total} 种物料`}
+              </span>
             </div>
           )}
           {selected.length > 0 && (
@@ -421,9 +496,12 @@ export function Inventory(props: WorkspaceProps) {
                   : undefined
               }
             >
-              <button className="btn primary" onClick={onAdd}>
-                <Plus size={16} />
-                添加第一种物料
+              <button
+                className="btn primary"
+                onClick={hasFilters ? clearFilters : onAdd}
+              >
+                {hasFilters ? <X size={16} /> : <Plus size={16} />}
+                {hasFilters ? "清除筛选" : "添加第一种物料"}
               </button>
             </Empty>
           ) : view === "list" ? (
@@ -482,12 +560,16 @@ export function Inventory(props: WorkspaceProps) {
                         >
                           <PartArt category={p.category} />
                           <div>
-                            <strong>{p.name}</strong>
-                            <span>{p.description}</span>
+                            <strong title={p.name}>{p.name}</strong>
+                            <span title={p.description}>{p.description}</span>
                             <small>
                               <b>{p.sku}</b>
-                              <i>·</i>
-                              {p.manufacturer}
+                              {p.manufacturer && (
+                                <>
+                                  <i>·</i>
+                                  {p.manufacturer}
+                                </>
+                              )}
                             </small>
                           </div>
                         </button>
@@ -551,12 +633,20 @@ export function Inventory(props: WorkspaceProps) {
                             <ArrowDownToLine size={16} />
                           </button>
                           <button
-                            aria-label={"查看 " + p.name}
-                            title="查看物料"
+                            aria-label={"出库 " + p.name}
+                            title="出库"
                             className="icon-btn"
-                            onClick={() => onDetail(p)}
+                            onClick={() => onStock(p, "out")}
                           >
-                            <MoreHorizontal size={18} />
+                            <ArrowUpFromLine size={16} />
+                          </button>
+                          <button
+                            aria-label={"编辑 " + p.name}
+                            title="编辑"
+                            className="icon-btn"
+                            onClick={() => onEdit(p)}
+                          >
+                            <Pencil size={15} />
                           </button>
                         </div>
                       </td>
@@ -615,40 +705,29 @@ export function Inventory(props: WorkspaceProps) {
             />
           )}
         </div>
-        <aside className="inventory-aside">
-          <div className="panel quick-panel">
-            <div className="section-heading">
-              <h3>最近动态</h3>
-              <span className="live-dot" />
+        {showAside && (
+          <aside
+            className="inventory-aside"
+            id="inventory-insights"
+            aria-label="物料概览"
+          >
+            <div className="panel quick-panel">
+              <div className="section-heading">
+                <h3>最近动态</h3>
+                <span className="live-dot" />
+              </div>
+              <MovementList items={summary?.recent_movements || []} />
+              <button
+                className="panel-link"
+                onClick={() => onNavigate("movements")}
+              >
+                查看全部记录
+                <ArrowRight size={14} />
+              </button>
             </div>
-            <MovementList items={summary?.recent_movements || []} />
-            <button
-              className="panel-link"
-              onClick={() => onNavigate("movements")}
-            >
-              查看全部记录
-              <ArrowRight size={14} />
-            </button>
-          </div>
-          <CategoryChart summary={summary} />
-          <div className="tip-card">
-            <span className="tip-icon">✦</span>
-            <h3>给灵感，一个确定的位置。</h3>
-            <p>用库位编号整理你的收纳盒，找元件的时间，留给创造。</p>
-            <button onClick={() => onNavigate("locations")}>
-              整理我的库位
-              <ArrowUpRight size={15} />
-            </button>
-            <div className="tip-boxes" aria-hidden="true">
-              <i />
-              <i />
-              <i />
-            </div>
-          </div>
-        </aside>
-      </div>
-      <div className="page-footnote">
-        为每一个热爱创造的人而设计。<span>PartsBox / Made for makers</span>
+            <CategoryChart summary={summary} />
+          </aside>
+        )}
       </div>
     </>
   );

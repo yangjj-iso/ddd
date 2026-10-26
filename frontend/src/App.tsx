@@ -10,7 +10,6 @@ import {
   ChevronRight,
   CircleHelp,
   Command,
-  Database,
   FolderKanban,
   History,
   LayoutDashboard,
@@ -320,9 +319,7 @@ export default function App() {
           </div>
           <span className="workspace-dot" title="个人空间" />
         </div>
-        <div className="nav-label">
-          工作空间<span>WORKSPACE</span>
-        </div>
+        <div className="nav-label">工作空间</div>
         <nav>
           {nav.map((v) => (
             <button
@@ -358,20 +355,6 @@ export default function App() {
           </button>
         </div>
         <div className="sidebar-bottom">
-          <div className="database-card">
-            <div>
-              <span className="database-icon">
-                <Database size={16} />
-              </span>
-              <strong>你的数据，由你掌控</strong>
-              <span className="live-dot" />
-            </div>
-            <p>MySQL 私有存储 · 开放 API</p>
-            <button onClick={() => navigate("agents")}>
-              连接你的智能体
-              <ArrowRight size={13} />
-            </button>
-          </div>
           <div className="user-profile">
             <span className="user-avatar">
               {user.name.slice(0, 1).toUpperCase()}
