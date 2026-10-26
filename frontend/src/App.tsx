@@ -279,6 +279,7 @@ export default function App() {
     setCategory,
   };
   const heading = pageHeaders[page] || pageHeaders.inventory;
+  const PageIcon = nav.find((item) => item.id === page)?.icon || Settings;
   if (!authReady)
     return (
       <div className="boot-screen">
@@ -324,6 +325,7 @@ export default function App() {
           {nav.map((v) => (
             <button
               className={page === v.id ? "active" : ""}
+              aria-current={page === v.id ? "page" : undefined}
               key={v.id}
               onClick={() => navigate(v.id)}
             >
@@ -343,6 +345,7 @@ export default function App() {
         <div className="sidebar-tools">
           <button
             className={page === "settings" ? "active" : ""}
+            aria-current={page === "settings" ? "page" : undefined}
             onClick={() => navigate("settings")}
           >
             <Settings size={18} strokeWidth={1.7} />
@@ -393,6 +396,9 @@ export default function App() {
               <Menu size={20} />
             </button>
             <div className="page-heading topbar-heading">
+              <span className="page-icon" aria-hidden="true">
+                <PageIcon size={19} strokeWidth={1.8} />
+              </span>
               <h1>{heading.title}</h1>
             </div>
           </div>

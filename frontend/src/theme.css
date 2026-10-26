@@ -1,0 +1,470 @@
+:root {
+  font-family: "Segoe UI", "Microsoft YaHei", "PingFang SC", sans-serif;
+  color: #243c35;
+  background: #f3f6f5;
+  --green: #21634e;
+  --green-dark: #174c3b;
+  --muted: #71817a;
+  --border: #e1e9e5;
+  --soft: #f5f8f6;
+  --surface-shadow: 0 2px 5px #173f2e03, 0 8px 28px #173f2e04;
+}
+
+/* A quiet shell with one clear navigation accent. */
+.sidebar {
+  background: linear-gradient(180deg, #fafcfb, #f6f9f7);
+  border-right-color: #dfe7e2;
+}
+.sidebar .brand-symbol {
+  background: linear-gradient(145deg, #34765e, #19503e);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px #215e4a1c;
+}
+.sidebar .brand strong {
+  color: #234c3e;
+  font-size: 23px;
+  letter-spacing: -0.6px;
+}
+.sidebar .brand small {
+  display: none;
+}
+.workspace-switch {
+  background: #fff;
+  border-color: #e1e9e4;
+  border-radius: 11px;
+}
+.nav-label {
+  color: #718077;
+}
+.sidebar nav button,
+.sidebar-tools button {
+  font-size: 13px;
+  border-radius: 9px;
+  color: #586c62;
+  transition:
+    background 160ms,
+    color 160ms,
+    box-shadow 160ms;
+}
+.sidebar nav button:hover,
+.sidebar-tools button:hover {
+  background: #eaf1ed;
+}
+.sidebar nav button.active,
+.sidebar-tools button.active {
+  background: var(--green);
+  color: #fff;
+  box-shadow: 0 3px 9px #21634e18;
+}
+.sidebar nav button.active b {
+  background: #ffffff1f;
+  border-color: #ffffff20;
+  color: #fff;
+}
+.sidebar nav button.active .new-tag {
+  border-color: #ffffff40;
+}
+.sidebar-tools button.active svg {
+  color: inherit;
+}
+.user-avatar,
+.top-avatar {
+  color: #2f6952;
+  background: #e4efe8;
+  box-shadow: 0 0 0 1px #dce8df;
+}
+.topbar {
+  background: #ffffff;
+  border-bottom-color: #e1e9e5;
+}
+.topbar .topbar-heading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.topbar .topbar-heading h1 {
+  color: #233f33;
+  font-weight: 650;
+  letter-spacing: 0;
+}
+.page-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 33px;
+  height: 33px;
+  border: 1px solid #e2ece5;
+  border-radius: 9px;
+  background: #f0f6f2;
+  color: var(--green);
+}
+.global-search {
+  min-height: 34px;
+  padding: 0 10px;
+  background: #f5f8f6;
+  border: 1px solid #e8edea;
+  border-radius: 8px;
+}
+.global-search:focus-within {
+  border-color: #89b09b;
+}
+.global-search input:focus {
+  box-shadow: none;
+}
+
+/* Consistent surfaces and controls across the workspace. */
+.panel,
+.stat-card {
+  border-color: var(--border);
+  border-radius: 13px;
+  box-shadow: var(--surface-shadow);
+}
+.btn {
+  border-color: #d9e3dc;
+  border-radius: 8px;
+  color: #425e50;
+  box-shadow: 0 1px 2px #173f2e06;
+  transition:
+    background 160ms,
+    border-color 160ms,
+    box-shadow 160ms;
+}
+.btn:hover:not(:disabled) {
+  background: #f0f6f2;
+  border-color: #a5bfae;
+}
+.btn.primary {
+  background: linear-gradient(180deg, #2c7158, #21634e);
+  border-color: #21634e;
+  color: #fff;
+  box-shadow: 0 2px 5px #174c3b20;
+}
+.btn.primary:hover:not(:disabled) {
+  background: #1a543f;
+  border-color: #1a543f;
+  box-shadow: 0 3px 9px #174c3b24;
+}
+.btn.danger-btn {
+  color: #a04b43;
+  border-color: #ebd6d2;
+}
+.btn.danger-btn:hover:not(:disabled) {
+  color: #923b34;
+  background: #fff1ee;
+  border-color: #deb4ad;
+}
+.btn.compact {
+  min-height: 33px;
+  font-size: 12px;
+}
+input,
+textarea,
+select {
+  border-color: #dce5df;
+  color: #334e40;
+}
+input::placeholder,
+textarea::placeholder {
+  color: #7b8982;
+}
+.search-field {
+  border-color: #dce5df;
+  background: #fafcfb;
+  border-radius: 8px;
+}
+.search-field input {
+  background: transparent;
+}
+.view-switch {
+  border: 1px solid #e3eae5;
+  padding: 3px;
+  gap: 3px;
+  background: #f5f8f6;
+  border-radius: 8px;
+}
+.view-switch button {
+  border-radius: 5px;
+}
+.view-switch button.active {
+  background: #fff;
+  color: var(--green);
+  box-shadow: 0 1px 4px #183f2e14;
+}
+.section-heading h3,
+.stat-label {
+  color: #3d5849;
+}
+.section-heading h3 {
+  font-size: 14px;
+}
+.stat-number {
+  color: #284d3a;
+  letter-spacing: -1px;
+}
+
+/* Readable inventory rows, with restrained category colors. */
+.inventory-workspace .inventory-tabs {
+  height: 51px;
+  gap: 22px;
+  background: #fdfefd;
+  overflow-y: hidden;
+}
+.inventory-tabs > button {
+  font-size: 13px;
+  color: #677b6e;
+}
+.inventory-tabs > button.active {
+  color: var(--green);
+}
+.inventory-tabs > button.active::after {
+  height: 3px;
+  background: var(--green);
+  border-radius: 3px 3px 0 0;
+}
+.inventory-tabs > button > span {
+  min-width: 18px;
+  padding: 2px 5px;
+  border-radius: 5px;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  background: #f0f4f1;
+  color: #65786c;
+}
+.inventory-tabs > button.active > span {
+  background: #e2efe6;
+  color: #21634e;
+  font-weight: 600;
+}
+.inventory-workspace .parts-table th {
+  color: #62776a;
+  background: #f5f8f6;
+  font-size: 12px;
+  font-weight: 500;
+  padding-top: 12px;
+  padding-bottom: 12px;
+}
+.inventory-workspace .parts-table td {
+  border-bottom-color: #edf1ee;
+}
+.inventory-workspace .part-cell strong {
+  color: #2b4435;
+  font-weight: 600;
+  line-height: 1.5;
+}
+.inventory-workspace .part-cell span:not(.part-art) {
+  font-size: 11px;
+  color: #65776b;
+}
+.inventory-workspace .part-cell small,
+.inventory-workspace .part-cell small b {
+  font-size: 10.5px;
+  color: #7a887f;
+}
+.part-art {
+  border-color: #203e2508;
+  border-radius: 10px;
+}
+.inventory-workspace .parts-table tbody tr:hover {
+  background: #f4f9f6;
+}
+.inventory-workspace .parts-table tr:hover td:last-child {
+  background: #f4f9f6;
+}
+.inventory-workspace .parts-table tr.selected,
+.inventory-workspace .parts-table tr.selected td:last-child {
+  background: #eaf4ed;
+}
+.inventory-workspace .parts-table th:last-child {
+  background: #f5f8f6;
+}
+.inventory-workspace .quantity-cell strong {
+  color: #2c5740;
+  font-size: 15px;
+}
+.package-tag {
+  background: #f6f8f7;
+  border-color: #e3e9e5;
+  color: #65766c;
+}
+.product-type-tag {
+  border-color: #dce9e0;
+  background: #eef6f0;
+  color: #32674c;
+  font-size: 11px;
+  border-radius: 6px;
+}
+.product-type-tag[data-category="电容"] {
+  color: #91642e;
+  background: #fcf5e9;
+  border-color: #f0e3cc;
+}
+.product-type-tag[data-category="集成电路"],
+.product-type-tag[data-category="模块"] {
+  color: #476c97;
+  background: #eef4fb;
+  border-color: #dfe8f4;
+}
+.product-type-tag[data-category="二极管"],
+.product-type-tag[data-category="晶体管"] {
+  color: #796394;
+  background: #f5f0fa;
+  border-color: #e9e0f2;
+}
+.product-type-tag[data-category="连接器"] {
+  color: #90654e;
+  background: #faf1eb;
+  border-color: #eee0d5;
+}
+.product-type-tag[data-category="电感"] {
+  color: #427b7b;
+  background: #eef7f7;
+  border-color: #dcebea;
+}
+.status-badge.healthy {
+  color: #427a55;
+  background: #eef7ef;
+}
+.status-badge.warning {
+  color: #9a6b28;
+  background: #fff5e5;
+}
+.status-badge.danger {
+  color: #b75b50;
+  background: #fff0ec;
+}
+.inventory-workspace .row-actions .icon-btn {
+  border-color: transparent;
+  color: #678171;
+  background: transparent;
+}
+.inventory-workspace tr:hover .row-actions .icon-btn {
+  background: #fff;
+  border-color: #dce8df;
+}
+.inventory-workspace .row-actions .icon-btn:hover {
+  color: #21634e;
+  background: #dceee3;
+  border-color: #bbd7c6;
+}
+.pagination {
+  background: #fcfdfc;
+  font-size: 11px;
+  color: #6b7e70;
+}
+.pagination button {
+  min-width: 28px;
+  min-height: 28px;
+  font-size: 11px;
+  border-radius: 6px;
+}
+.pagination button.active {
+  background: var(--green);
+  border-color: var(--green);
+  color: #fff;
+}
+.part-card {
+  border-color: #e0e9e2;
+  border-radius: 12px;
+  background: #fff;
+}
+.part-card:hover {
+  border-color: #abc7b6;
+  box-shadow: 0 5px 18px #214f3610;
+}
+.part-card h3 {
+  color: #2e4c39;
+  font-size: 14px;
+}
+
+/* Dialogs follow the same surface and text hierarchy. */
+.modal {
+  border: 1px solid #ffffffb0;
+  border-radius: 16px;
+  box-shadow: 0 24px 80px #0e2f2a33;
+}
+.modal > header {
+  background: #fff;
+  border-bottom-color: #e6ede8;
+}
+.modal > header h2,
+.detail-hero h2 {
+  color: #294e3b;
+}
+.modal footer {
+  background: #f8faf9;
+  border-top-color: #e6ede8;
+}
+.form-grid label,
+.detail-fields dd {
+  color: #435d4b;
+  font-size: 13px;
+}
+.form-section-label {
+  color: #335e45;
+  font-weight: 600;
+}
+.detail-numbers {
+  background: #f3f8f4;
+  border-color: #e1ebe3;
+}
+.detail-numbers strong {
+  color: #2f6648;
+}
+.bar-column i,
+.chart-legend i {
+  background: #6c9f81;
+}
+.bar-column i:last-child,
+.chart-legend > span:last-child i {
+  background: #d7be8f;
+}
+.location-card h3,
+.project-card h3 {
+  color: #2c4e3a;
+  font-size: 15px;
+}
+.location-card > p,
+.project-card > p {
+  font-size: 12px;
+  color: #687d6d;
+}
+
+@media (max-width: 760px) {
+  .topbar .topbar-heading {
+    gap: 7px;
+  }
+  .page-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 7px;
+  }
+  .page-icon svg {
+    width: 16px;
+    height: 16px;
+  }
+  .topbar .topbar-heading h1 {
+    font-size: 17px;
+  }
+  .global-search {
+    padding: 0;
+    background: transparent;
+    border-color: transparent;
+  }
+  .inventory-workspace .inventory-tabs {
+    gap: 17px;
+  }
+  .inventory-tabs > button {
+    font-size: 12px;
+  }
+  .btn.compact {
+    font-size: 11px;
+  }
+  .inventory-workspace .parts-table td:last-child {
+    box-shadow: -6px 0 12px #274d3510;
+  }
+}
+@media (max-width: 380px) {
+  .topbar .page-icon {
+    display: none;
+  }
+}

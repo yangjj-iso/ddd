@@ -577,6 +577,7 @@ export function Inventory(props: WorkspaceProps) {
                       <td>
                         <span
                           className="product-type-tag"
+                          data-category={p.category}
                           title={getProductType(p)}
                         >
                           {getProductType(p)}
@@ -665,7 +666,10 @@ export function Inventory(props: WorkspaceProps) {
                   </div>
                   <button onClick={() => onDetail(p)}>
                     <h3>{p.name}</h3>
-                    <span className="product-type-tag">
+                    <span
+                      className="product-type-tag"
+                      data-category={p.category}
+                    >
                       {getProductType(p)}
                     </span>
                     <p>{p.description}</p>
@@ -875,7 +879,10 @@ export function Detail({
               <div>
                 <dt>商品类型</dt>
                 <dd>
-                  <span className="product-type-tag">
+                  <span
+                    className="product-type-tag"
+                    data-category={part.category}
+                  >
                     {getProductType(part)}
                   </span>
                 </dd>
